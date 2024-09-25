@@ -24,7 +24,7 @@ public class NasdaqService {
     }
 
     public JsonNode fetchData(String stockSymbol) throws Exception {
-        String url = String.format("%s%s.json?api_key=%s", apiUrl, stockSymbol, apiKey);
+        String url = apiUrl;
         String response = restTemplate.getForObject(url, String.class);
         return objectMapper.readTree(response);
     }
