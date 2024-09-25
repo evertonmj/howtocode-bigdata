@@ -22,26 +22,7 @@ wget https://github.com/provectus/kafka-ui/releases/download/v0.7.2/kafka-ui-api
 #https://docs.kafka-ui.provectus.io/development/building/without-docker
 
 mkdir -p /home/ec2-user/conf
-
-echo """
-logging:
-  level:
-    root: INFO
-    com.provectus: DEBUG
-    #org.springframework.http.codec.json.Jackson2JsonEncoder: DEBUG
-    #org.springframework.http.codec.json.Jackson2JsonDecoder: DEBUG
-    reactor.netty.http.server.AccessLog: INFO
-    org.springframework.security: DEBUG
-
-server:
-  port: 8080 #- Port in which kafka-ui will run.
-
-kafka:
-  clusters:
-    -
-      name: local
-      bootstrapServers: localhost:9092
-""" > /home/ec2-user/conf/application.yaml
+cp /home/ec2-user/howtocode_bigdata/kafka-ec2-aws/conf/application.yaml /home/ec2-user/conf
 
 sudo chown -R ec2-user:ec2-user /home/ec2-user
 sudo chmod -R 755 /home/ec2-user
