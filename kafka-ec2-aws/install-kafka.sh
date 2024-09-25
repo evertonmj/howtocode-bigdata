@@ -27,5 +27,4 @@ cp /home/ec2-user/howtocode_bigdata/kafka-ec2-aws/conf/application.yaml /home/ec
 sudo chown -R ec2-user:ec2-user /home/ec2-user
 sudo chmod -R 755 /home/ec2-user
 
-# java -Dspring.config.additional-location=conf/application.yaml --add-opens java.rmi/javax.rmi.ssl=ALL-UNNAMED -jar kafka-ui-api-v0.7.2.jar
-
+echo "Tudo finalizado!"
