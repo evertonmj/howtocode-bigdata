@@ -6,8 +6,6 @@ $KAFKA_HOME/bin/zookeeper-server-start.sh -daemon $KAFKA_HOME/config/zookeeper.p
 echo "Iniciando o kafka..."
 $KAFKA_HOME/bin/kafka-server-start.sh -daemon $KAFKA_HOME/config/server.properties
 echo "Checando status..."
-$KAFKA_HOME/bin/kafka-server-start.sh status
-$KAFKA_HOME/bin/zookeeper-server-start.sh status
 
-java -Dspring.config.additional-location=conf/application.yaml --add-opens java.rmi/javax.rmi.ssl=ALL-UNNAMED -jar $UHOME/kafka-ui-api-v0.7.2.jar
+nohup java -Dspring.config.additional-location=conf/application.yaml --add-opens java.rmi/javax.rmi.ssl=ALL-UNNAMED -jar $UHOME/kafka-ui-api-v0.7.2.jar &
 

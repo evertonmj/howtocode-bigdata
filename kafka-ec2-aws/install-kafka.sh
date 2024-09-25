@@ -5,6 +5,7 @@ echo "Instalando java...."
 sudo yum install java -y
 echo "Instalando o wget..."
 sudo yum install wget -y
+sudo yum install maven -y
 cd /home/ec2-user
 echo "Instalando o kafka..."
 wget https://downloads.apache.org/kafka/3.8.0/kafka_2.12-3.8.0.tgz
@@ -41,6 +42,9 @@ kafka:
       name: local
       bootstrapServers: localhost:9092
 """ > /home/ec2-user/conf/application.yaml
+
+sudo chown -R ec2-user:ec2-user /home/ec2-user
+sudo chmod -R 755 /home/ec2-user
 
 # java -Dspring.config.additional-location=conf/application.yaml --add-opens java.rmi/javax.rmi.ssl=ALL-UNNAMED -jar kafka-ui-api-v0.7.2.jar
 
