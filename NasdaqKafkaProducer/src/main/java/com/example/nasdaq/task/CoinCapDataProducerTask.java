@@ -1,7 +1,7 @@
 package com.example.nasdaq.task;
 
 import com.example.nasdaq.kafka.KafkaProducer;
-import com.example.nasdaq.service.CoinGeckoService;
+import com.example.nasdaq.service.CoinCapService;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -9,29 +9,30 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CoinGeckoDataProducerTask implements CommandLineRunner {
+public class CoinCapDataProducerTask implements CommandLineRunner {
 
-    private final CoinGeckoService coinGeckoService;
+    private final CoinCapService coinCapService;
     private final KafkaProducer kafkaProducer;
 
     @Value("${kafka.topic.name}")
     private String kafkaTopic;
 
-    public CoinGeckoDataProducerTask(CoinGeckoService coinGeckoService, KafkaProducer kafkaProducer) {
-        this.coinGeckoService = coinGeckoService;
+    public CoinCapDataProducerTask(CoinCapService coinCapService, KafkaProducer kafkaProducer) {
+        this.coinCapService = coinCapService;
         this.kafkaProducer = kafkaProducer;
     }
 
     @Override
     public void run(String... args) throws Exception {
+        // Start producing data on application startup
         fetchAndProduceData();
     }
 
-    // @Scheduled(fixedRateString = "${fetch.interval.ms}")
+    @Scheduled(fixedRateString = "${fetch.interval.ms}")
     public void fetchAndProduceData() {
         try {
-            // Fetch crypto data (a list of market information for various coins)
-            JsonNode cryptoDataArray = coinGeckoService.fetchCryptoData();
+            // Fetch crypto data from CoinCap API (a list of market information for various coins)
+            JsonNode cryptoDataArray = coinCapService.fetchCryptoData();
 
             // Loop through each cryptocurrency and send singular messages
             for (JsonNode cryptoData : cryptoDataArray) {
@@ -48,13 +49,13 @@ public class CoinGeckoDataProducerTask implements CommandLineRunner {
         String id = cryptoData.get("id").asText();
         String symbol = cryptoData.get("symbol").asText();
         String name = cryptoData.get("name").asText();
-        double currentPrice = cryptoData.get("current_price").asDouble();
-        double marketCap = cryptoData.get("market_cap").asDouble();
-        double priceChangePercentage24h = cryptoData.get("price_change_percentage_24h").asDouble();
+        double currentPrice = cryptoData.get("priceUsd").asDouble();
+        double marketCap = cryptoData.get("marketCapUsd").asDouble();
+        double changePercentage24h = cryptoData.get("changePercent24Hr").asDouble();
 
         return String.format(
             "{\"id\": \"%s\", \"symbol\": \"%s\", \"name\": \"%s\", \"current_price\": %.2f, \"market_cap\": %.2f, \"price_change_percentage_24h\": %.2f}",
-            id, symbol, name, currentPrice, marketCap, priceChangePercentage24h
+            id, symbol, name, currentPrice, marketCap, changePercentage24h
         );
     }
 }

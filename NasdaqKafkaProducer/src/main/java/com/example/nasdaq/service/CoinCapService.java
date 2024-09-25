@@ -7,25 +7,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class CoinGeckoService {
+public class CoinCapService {
 
-    @Value("${coingecko.api.url}")
+    @Value("${coincap.api.url}")
     private String apiUrl;
-
-    @Value("${coingecko.currency}")
-    private String currency;
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    public CoinGeckoService(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public CoinCapService(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
     }
 
     public JsonNode fetchCryptoData() throws Exception {
-        String url = apiUrl;
-        String response = restTemplate.getForObject(url, String.class);
-        return objectMapper.readTree(response);
+        String response = restTemplate.getForObject(apiUrl, String.class);
+        return objectMapper.readTree(response).get("data");  // Get the 'data' array from the response
     }
 }
