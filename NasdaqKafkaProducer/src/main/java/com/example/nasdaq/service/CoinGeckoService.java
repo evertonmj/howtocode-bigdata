@@ -24,7 +24,8 @@ public class CoinGeckoService {
     }
 
     public JsonNode fetchCryptoData() throws Exception {
-        String url = String.format("%s?vs_currency=%s", apiUrl, currency);
+        String url = apiUrl;
+        System.out.println(url);
         String response = restTemplate.getForObject(url, String.class);
         return objectMapper.readTree(response);
     }
