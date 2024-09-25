@@ -1,4 +1,3 @@
-
 package com.example.nasdaq.kafka;
 
 import org.slf4j.Logger;
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class KafkaProducer {
+
     private static final Logger logger = LoggerFactory.getLogger(KafkaProducer.class);
 
     private final KafkaTemplate<String, String> kafkaTemplate;
@@ -22,6 +22,6 @@ public class KafkaProducer {
             .addCallback(
                 success -> logger.info("Message [{}] delivered with offset {}", message, success.getRecordMetadata().offset()),
                 failure -> logger.error("Unable to deliver message [{}]. Cause: {}", message, failure.getMessage())
-            );    
-            }
+            );
+    }
 }
