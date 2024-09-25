@@ -28,8 +28,11 @@ public class NasdaqDataProducerTask {
     @Scheduled(fixedRateString = "${fetch.interval.ms}")
     public void fetchAndProduceData() {
         try {
+            System.out.print("Producing message...")
             JsonNode data = nasdaqService.fetchData(stockSymbol);
             kafkaProducer.sendMessage(kafkaTopic, data.toString());
+            System.out.println(" > Message sent!")
+
         } catch (Exception e) {
             e.printStackTrace();
         }
