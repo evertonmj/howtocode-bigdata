@@ -49,6 +49,6 @@ public class WeatherDataProducerTask implements CommandLineRunner {
         double windspeed = weatherData.get("windspeed").asDouble();
         String time = weatherData.get("time").asText();
 
-        return String.format("{\"temperature\": %.2f, \"windspeed\": %.2f, \"time": "%s\"}", temperature, windspeed, time);
+        return String.format("{\"temperature\": %.2f, \"windspeed\": %.2f, \"time\": \"%s\"}", temperature, windspeed, time);
     }
 }
