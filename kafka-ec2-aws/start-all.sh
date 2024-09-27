@@ -9,3 +9,11 @@ echo "Checando status..."
 
 nohup java -Dspring.config.additional-location=conf/application.yaml --add-opens java.rmi/javax.rmi.ssl=ALL-UNNAMED -jar $UHOME/kafka-ui-api-v0.7.2.jar &
 
+{
+	"id": "bitcoin",
+	"symbol": "BTC",
+	"name": "Bitcoin",
+	"current_price": 65068.79,
+	"market_cap": 1285721230145.53,
+	"price_change_percentage_24h": 2.64
+}

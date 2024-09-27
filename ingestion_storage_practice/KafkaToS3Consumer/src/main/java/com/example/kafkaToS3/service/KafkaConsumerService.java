@@ -36,11 +36,9 @@ public class KafkaConsumerService {
         // Create CSV file locally
         String fileName = "weather_data.csv";
         try (FileWriter csvWriter = new FileWriter(fileName)) {
-            csvWriter.append("temperature,windspeed,winddirection,time
-");
+            csvWriter.append("temperature,windspeed,winddirection,time");
             for (ConsumerRecord<String, String> message : messages) {
-                csvWriter.append(message.value()).append("
-");
+                csvWriter.append(message.value()).append("");
             }
         }
 
