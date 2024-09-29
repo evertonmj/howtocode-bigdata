@@ -1,5 +1,5 @@
 
-package com.example.nasdaq;
+package com.example.weather;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,8 +7,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-public class NasdaqKafkaProducerApplication {
+public class BlockchainMarketScrapperApplication {
     public static void main(String[] args) {
-        SpringApplication.run(NasdaqKafkaProducerApplication.class, args);
+        SpringApplication.run(BlockchainMarketScrapperApplication.class, args);
     }
 }
