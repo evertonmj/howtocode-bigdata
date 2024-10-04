@@ -1,0 +1,20 @@
+spring:
+    kafka:
+        bootstrap-servers: localhost:9092
+        consumer:
+            group-id: market_ticker_group
+            auto-offset-reset: earliest
+            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+aws:
+    kinesis:
+        stream-name: your_kinesis_stream_name
+        region: your_aws_region
+        access-key: your_access_key
+        secret-key: your_secret_key
+
+
+
+server:
+  port: 8090
