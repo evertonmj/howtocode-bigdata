@@ -47,20 +47,18 @@ public class BlockchainDataProducerTask implements CommandLineRunner {
 
     @Scheduled(fixedRateString = "${fetch.interval.ms}")
     public void fetchAndProduceData() {
-            try {
-                List<String> pairsList = new ArrayList<>(Arrays.asList(pairs.split(",")));
+        try {
+            List<String> pairsList = new ArrayList<>(Arrays.asList(pairs.split(",")));
 
-                for (String pair : pairsList) {
-                    logger.info("Fetching data for pair: " + pair);
-                    JsonNode pairTrades = (tickersMarketService.fetchTradesFromPair(pair));
-                    pairTrades.forEach(this::produceData);
-                }
-                        
-                // JsonNode tickerDetail = tickersMarketService.fetchTradesFromPair(pair);
-            } catch (Exception e) {
-                logger.severe("Error fetching data from the API: " + e.getMessage());
-                e.printStackTrace();
+            for (String pair : pairsList) {
+                logger.info("Fetching data for pair: " + pair);
+                JsonNode pairTrades = (tickersMarketService.fetchTradesFromPair(pair));
+                pairTrades.forEach(this::produceData);
             }
+        } catch (Exception e) {
+            logger.severe("Error fetching data from the API: " + e.getMessage());
+            e.printStackTrace();
+        }
 
     }
 
