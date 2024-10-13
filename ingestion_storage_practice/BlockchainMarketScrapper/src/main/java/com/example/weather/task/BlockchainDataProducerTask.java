@@ -10,16 +10,29 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.HashMap;
 
 @Component
 public class BlockchainDataProducerTask implements CommandLineRunner {
 
     private final TickersMarketService tickersMarketService;
     private final KafkaProducer kafkaProducer;
+    private List<String> pairsList;
+    private Logger logger = Logger.getLogger(BlockchainDataProducerTask.class.getName());
 
     @Value("${kafka.topic.name}")
     private String kafkaTopic;
+
+    @Value("${blockchain.pairs}")
+    private String pairs;
 
     public BlockchainDataProducerTask(TickersMarketService tickersMarketService, KafkaProducer kafkaProducer) {
         this.tickersMarketService = tickersMarketService;
@@ -35,16 +48,26 @@ public class BlockchainDataProducerTask implements CommandLineRunner {
     @Scheduled(fixedRateString = "${fetch.interval.ms}")
     public void fetchAndProduceData() {
             try {
-                JsonNode tickerDetail = tickersMarketService.fetchTradesFromPair("btc_jpy");
-                tickerDetail.forEach(this::produceData);
+                List<String> pairsList = new ArrayList<>(Arrays.asList(pairs.split(",")));
+
+                for (String pair : pairsList) {
+                    logger.info("Fetching data for pair: " + pair);
+                    JsonNode pairTrades = (tickersMarketService.fetchTradesFromPair(pair));
+                    pairTrades.forEach(this::produceData);
+                }
+                        
+                // JsonNode tickerDetail = tickersMarketService.fetchTradesFromPair(pair);
             } catch (Exception e) {
+                logger.severe("Error fetching data from the API: " + e.getMessage());
                 e.printStackTrace();
             }
 
     }
 
     private void produceData(JsonNode tickerData) {
+        logger.info("Producing message: " + tickerData);
         String message = convertTickerDataToMessage(tickerData);
+        
         kafkaProducer.sendMessage(kafkaTopic, message);
     }
 

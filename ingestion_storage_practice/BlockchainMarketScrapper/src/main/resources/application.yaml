@@ -13,6 +13,7 @@ blockchain:
 #    exchange: https://api.blockchain.com/v3/exchange
     exchange: https://coincheck.com/api
     trades-pair: /trades?pair=
+  pairs: btc_jpy,eth_jpy,etc_jpy,lsk_jpy,xrp_jpy,xem_jpy,mona_jpy,iost_jpy,enj_jpy,shib_jpy,plt_jpy,fnct_jpy,dai_jpy,wbtc_jpy,bril_jpy
 
 # Kafka and scheduling settings
 kafka:

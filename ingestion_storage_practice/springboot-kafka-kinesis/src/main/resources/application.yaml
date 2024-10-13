@@ -9,12 +9,8 @@ spring:
 
 aws:
     kinesis:
-        stream-name: your_kinesis_stream_name
-        region: your_aws_region
-        access-key: your_access_key
-        secret-key: your_secret_key
-
-
+        stream-name: kin
+        region: us-east-1
 
 server:
   port: 8090

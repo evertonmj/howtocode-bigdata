@@ -1,0 +1,118 @@
+{
+	"jobConfig": {
+		"name": "job1",
+		"description": "",
+		"role": "arn:aws:iam::353837712470:role/LabRole",
+		"command": "gluestreaming",
+		"version": "4.0",
+		"runtime": null,
+		"workerType": "G.1X",
+		"numberOfWorkers": 2,
+		"maxCapacity": 2,
+		"jobRunQueuingEnabled": false,
+		"maxRetries": 0,
+		"timeout": 10,
+		"maxConcurrentRuns": 1,
+		"security": "none",
+		"scriptName": "job1.py",
+		"scriptLocation": "s3://aws-glue-assets-353837712470-us-east-1/scripts/",
+		"language": "python-3",
+		"spark": true,
+		"sparkConfiguration": "standard",
+		"jobParameters": [],
+		"tags": [],
+		"jobMode": "VISUAL_MODE",
+		"createdOn": "2024-10-09T00:23:07.400Z",
+		"developerMode": false,
+		"connectionsList": [
+			"Kafka connection"
+		],
+		"temporaryDirectory": "s3://aws-glue-assets-353837712470-us-east-1/temporary/",
+		"etlAutoScaling": true,
+		"logging": true,
+		"glueHiveMetastore": true,
+		"etlAutoTuning": true,
+		"metrics": true,
+		"observabilityMetrics": false,
+		"serverEncryption": true,
+		"bookmark": "job-bookmark-disable",
+		"sparkPath": "s3://aws-glue-assets-353837712470-us-east-1/sparkHistoryLogs/",
+		"flexExecution": false,
+		"minFlexWorkers": null,
+		"sourceControlDetails": {
+			"Provider": "NONE"
+		},
+		"maintenanceWindow": null
+	},
+	"dag": {
+		"node-1728433190005": {
+			"nodeId": "node-1728433190005",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [],
+			"name": "Apache Kafka",
+			"generatedNodeName": "ApacheKafka_node1728433190005",
+			"classification": "DataSource",
+			"type": "Kafka",
+			"isCatalog": false,
+			"windowSize": 100,
+			"detectSchema": true,
+			"streamingOptions": {
+				"bootstrapServers": "http://172.31.27.227:9092",
+				"securityProtocol": null,
+				"connectionName": "Kafka connection",
+				"topicName": "market_tickers_data",
+				"assign": null,
+				"subscribePattern": null,
+				"classification": "json",
+				"delimiter": null,
+				"startingOffsets": "earliest",
+				"startingTimestamp": null,
+				"endingOffsets": null,
+				"pollTimeoutMs": null,
+				"numRetries": null,
+				"retryIntervalMs": null,
+				"maxOffsetsPerTrigger": null,
+				"minPartitions": null,
+				"includeHeaders": null,
+				"addRecordTimestamp": null,
+				"emitConsumerLagMetrics": null
+			},
+			"nameToUse": "dataframe_ApacheKafka_node1728433190005",
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1728433767973": {
+			"nodeId": "node-1728433767973",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1728433190005"
+			],
+			"name": "Amazon S3",
+			"generatedNodeName": "AmazonS3_node1728433767973",
+			"classification": "DataSink",
+			"type": "S3",
+			"streamingBatchInterval": 100,
+			"format": "json",
+			"compression": "none",
+			"path": "s3://aws-glue-assets-353837712470-us-east-1",
+			"partitionKeys": [],
+			"schemaChangePolicy": {
+				"enableUpdateCatalog": true,
+				"updateBehavior": "LOG",
+				"database": "marketdb",
+				"table": "market_table"
+			},
+			"updateCatalogOptions": "partitions",
+			"autoDataQuality": {
+				"isEnabled": false,
+				"evaluationContext": null
+			},
+			"calculatedType": "",
+			"codeGenVersion": 2
+		}
+	},
+	"hasBeenSaved": false,
+	"usageProfileName": null
+}
