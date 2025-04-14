@@ -19,7 +19,7 @@ def main():
     # Select columns from the df using the replacements dict to rename columns   with spaces
     df = df.select([F.col(c).alias(replacements.get(c, c)) for c in df.columns])
     # Convert the "Date" column from string type to date type
-    df = df.withColumn("Date", F.to_date(F.col("Date"), "M/d/yyyy"))
+    df = df.withColumn("Date", F.to_date(F.col("Date"), "dd/MM/yyyy"))
 
     # Calculate the total sales by salesperson
     sales_by_salesperson = df.groupBy("Salesperson") \
