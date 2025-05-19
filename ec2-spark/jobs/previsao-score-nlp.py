@@ -19,7 +19,7 @@ df = spark.read \
 # Pré-processamento: NLP pipeline
 tokenizer = Tokenizer(inputCol="review_text", outputCol="words")
 remover = StopWordsRemover(inputCol="words", outputCol="filtered")
-hashingTF = HashingTF(inputCol="filtered", outputCol="rawFeatures", numFeatures=1000)
+hashingTF = HashingTF(inputCol="filtered", outputCol="rawFeatures", numFeatures=1000) 
 idf = IDF(inputCol="rawFeatures", outputCol="features")
 
 # Classificador
