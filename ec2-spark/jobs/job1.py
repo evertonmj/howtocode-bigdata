@@ -1,31 +1,29 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import *
+from pyspark.sql.functions import col
 
-# Inicializa a SparkSession com suporte ao S3
 spark = SparkSession.builder \
-    .appName("StreamingS3") \
+    .appName("ProcessarArquivoGrandeS3") \
+    .master("local[*]") \
     .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
     .config("spark.hadoop.fs.s3a.aws.credentials.provider", "com.amazonaws.auth.DefaultAWSCredentialsProviderChain") \
     .getOrCreate()
 
-spark.sparkContext.setLogLevel("WARN")
+# Caminho do seu arquivo grande no S3
+caminho_s3 = "s3a://evert-bg-01/data/dataset.csv"
 
-# Caminho do bucket S3 (modifique com o nome real do seu bucket e pasta)
-s3_path = "s3a://ucsal-bigdata-ever-01/dados/"
-
-# Lê arquivos CSV no S3 como streaming
-df = spark.readStream \
+df = spark.read \
     .option("header", "true") \
-    .schema("id INT, nome STRING, timestamp STRING") \
-    .csv(s3_path)
+    .csv(caminho_s3)
 
-# Transformações
-resultado = df.select("id", "nome", "timestamp")
+# Processamento simples
+df_filtro = df.filter(col("app_id").cast("int") > 50000)
 
-# Saída no console
-query = resultado.writeStream \
-    .format("console") \
-    .outputMode("append") \
-    .start()
+# Mostrar resultado
+df_filtro.show(20)
 
-query.awaitTermination()
+df_count = df_filtro.groupBy(col("app_name")).count()
+
+df_count.show(20)
+
+# (Opcional) salvar resultado no S3
+# df_filtro.write.mode("overwrite").csv("s3a://ucsal-bigdata-ever-01/saida/filtrado/")
