@@ -31,6 +31,10 @@ unzip steam-reviews.zip
 
 aws s3 cp dataset.csv s3://evert-bg-01/data/dataset.csv
 
-wget https://github.com/evertonmj/howtocode-bigdata/blob/main/ec2-spark/jobs/job1.py
+cd /home/ubuntu/jobs
+wget https://raw.githubusercontent.com/evertonmj/howtocode-bigdata/refs/heads/main/ec2-spark/jobs/job1.py
+wget https://raw.githubusercontent.com/evertonmj/howtocode-bigdata/refs/heads/main/ec2-spark/jobs/previsao-score-nlp.py
 
-sudo  chmod -r 777 /home/ubuntu/
+sudo  chmod -R 777 /home/ubuntu/
+
+cd /home/ubuntu
