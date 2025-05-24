@@ -1,7 +1,8 @@
 #!/bin/bash
 sudo apt update
-sudo apt install unzip openjdk-11-jdk python3-pip git -y
+sudo apt install unzip openjdk-11-jdk python3-pip pipx git -y
 sudo snap install aws-cli --classic
+pipx install numpy pyspark
 
 cd /home/ubuntu
 mkdir spark && cd spark
@@ -9,8 +10,9 @@ wget https://dlcdn.apache.org/spark/spark-3.5.5/spark-3.5.5-bin-hadoop3.tgz
 tar -xzvf spark-3.5.5-bin-hadoop3.tgz 
 sudo mv spark-3.5.5-bin-hadoop3 /opt/spark
 echo 'export SPARK_HOME=/opt/spark' >> /home/ubuntu/.bashrc
-echo 'export PATH=$SPARK_HOME/bin:$PATH' >> /home/ubuntu/.bashrc
 echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> /home/ubuntu/.bashrc
+echo 'export LOCAL_PATH=/home/ubuntu/.local/bin'
+echo 'export PATH=$SPARK_HOME:$JAVA_HOME/bin:$LOCAL_PATH:$PATH' >> /home/ubuntu/.bashrc
 source /home/ubuntu/.bashrc
 
 cd /opt/spark/jars/
