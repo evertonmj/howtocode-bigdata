@@ -8,9 +8,9 @@ mkdir spark && cd spark
 wget https://dlcdn.apache.org/spark/spark-3.5.5/spark-3.5.5-bin-hadoop3.tgz
 tar -xzvf spark-3.5.5-bin-hadoop3.tgz 
 sudo mv spark-3.5.5-bin-hadoop3 /opt/spark
-echo "export SPARK_HOME=/opt/spark" >> ~/.bashrc
-echo "export PATH=\$SPARK_HOME/bin:\$PATH" >> ~/.bashrc
-echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> ~/.bashrc
+echo 'export SPARK_HOME=/opt/spark' >> /home/ubuntu/.bashrc
+echo 'export PATH=$SPARK_HOME/bin:$PATH' >> /home/ubuntu/.bashrc
+echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> /home/ubuntu/.bashrc
 source /home/ubuntu/.bashrc
 
 cd /opt/spark/jars/
