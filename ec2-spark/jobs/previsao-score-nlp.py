@@ -3,6 +3,7 @@ from pyspark.ml.feature import Tokenizer, StopWordsRemover, HashingTF, IDF
 from pyspark.ml.classification import LogisticRegression
 from pyspark.ml import Pipeline
 from pyspark.ml.evaluation import BinaryClassificationEvaluator
+from pyspark.sql.functions import col
 
 # Criar SparkSession
 spark = SparkSession.builder \
@@ -15,6 +16,10 @@ caminho_s3 = "s3a://evert-bg-01/data/dataset.csv"
 df = spark.read \
     .option("header", "true") \
     .csv(caminho_s3)
+
+df = df.filter(col("review_text").isNotNull())
+
+df = df.withColumn("review_score", col("review_score").cast("double"))
 
 # Pré-processamento: NLP pipeline
 tokenizer = Tokenizer(inputCol="review_text", outputCol="words")
